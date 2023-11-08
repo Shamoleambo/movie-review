@@ -1,10 +1,9 @@
 import express from 'express'
+import movieRouter from './routes/movieRoutes.js'
 
 const app = express()
 
-app.get('', (req, res) => {
-  res.send('<h1>Hello Tiago</h1>')
-})
+app.use('/api/movies', movieRouter)
 
 app.listen(3000, () => {
   console.log('hello world')
