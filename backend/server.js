@@ -1,8 +1,10 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import movieRouter from './routes/movieRoutes.js'
+import { connectDB } from './config/db.js'
 
 dotenv.config()
+connectDB()
 const server = express()
 
 const PORT = process.env.PORT || 5000
