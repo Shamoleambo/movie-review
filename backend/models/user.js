@@ -1,4 +1,7 @@
 import mongoose from 'mongoose'
+import bcrypt from 'bcrypt'
+
+const SALT_WORK_FACTOR = 10
 
 const userSchema = mongoose.Schema(
   {
@@ -23,6 +26,15 @@ const userSchema = mongoose.Schema(
     timestamps: true
   }
 )
+
+userSchema.pre('save',async function (next) {
+  const user = this
+  if (!user.isModified('password')) return next()
+
+  const salt = await bcrypt.genSalt(SALT_WORK_FACTOR)
+  user.password = await bcrypt.hash(user.password, salt)
+  user.passwordConfirmation = user.password
+})
 
 const user = mongoose.model('User', userSchema)
 
